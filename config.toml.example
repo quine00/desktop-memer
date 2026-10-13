@@ -1,0 +1,33 @@
+# desktop-memer configuration template.
+# Copy to config.toml (gitignored) and fill in, or export MEMER_* env vars.
+
+[models]
+summary = "google/gemini-2.5-flash"
+image   = "google/gemini-2.5-flash-image"
+
+[credentials]
+openrouter_api_key = "sk-or-..."
+github_token = "ghp_..."
+
+jira_base_url  = "https://your-org.atlassian.net"
+jira_email     = "you@example.com"
+jira_api_token = "..."
+
+mattermost_url    = "https://mattermost.example.com"
+mattermost_token  = "..."
+mattermost_target = "self"   # "self" = DM with yourself, or "teamname/channelname"
+
+# Per-instance GitLab tokens; only instances listed here are queried.
+[credentials.gitlab]
+"gitlab.example.org" = "glpat-..."
+
+# Launchpad uses ~/.lp_creds (OAuth1, launchpadlib), not this file.
+
+# One [[person]] block per human. Absent sources are skipped.
+[[person]]
+name = "Example Person"
+github = "their-github"
+launchpad = "their-lp-id"       # without the leading ~
+jira = "them@example.com"
+[person.gitlab]
+"gitlab.example.org" = "their-gitlab"

@@ -1,6 +1,6 @@
 """Collectors return rows: {person, source, kind, headline, url, date}.
 
-kind is one of: pr, mr, issue, bug, comment, jira.
+kind is one of: pr, mr, issue, bug, comment, commit, jira.
 """
 from __future__ import annotations
 

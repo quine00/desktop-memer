@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from .collectors import Row
 
-KIND_WEIGHT = {"mr": 5, "pr": 5, "issue": 3, "bug": 3, "jira": 2, "comment": 1}
+KIND_WEIGHT = {"mr": 5, "pr": 5, "commit": 4, "issue": 3, "bug": 3, "jira": 2, "comment": 1}
 
 
 def rank(rows: list[Row], top: int | None = None) -> list[Row]:

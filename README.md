@@ -55,5 +55,7 @@ OpenRouter cost of the run, and the raw headline table.
   (MR/PR > issue/bug > jira > comment).
 - Launchpad has a circuit breaker: LP is flaky, so one failure skips the
   source for the rest of the run rather than retrying for every person.
+- GitLab collection includes authored issues/MRs plus user-event pushes and
+  comments, so work on existing branches and discussions appears in reports.
 - Cost: run cost is read from OpenRouter's usage accounting and printed in
   the post.

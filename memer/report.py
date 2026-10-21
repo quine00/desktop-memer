@@ -2,14 +2,14 @@
 from __future__ import annotations
 
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from .collectors import Row
 from .rank import rank
 
 
 def render(rows: list[Row], people: list[str], weeks: int) -> str:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
     lines = [f"# desktop-memer report ({weeks}w, generated {now})", ""]
     by_person: dict[str, list[Row]] = {p: [] for p in people}
     for r in rows:

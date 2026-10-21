@@ -1,7 +1,7 @@
 """GitLab activity, per configured instance."""
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import httpx
 
@@ -12,7 +12,7 @@ from . import Row, window
 def collect(cfg: Config, person: Person, days: int) -> list[Row]:
     rows: list[Row] = []
     since, since_iso, since_date = window(days)
-    until = datetime.now(timezone.utc)
+    until = datetime.now(UTC)
     for instance, token in cfg.gitlab_tokens.items():
         username = person.gitlab.get(instance)
         if not username:
@@ -74,7 +74,7 @@ def collect(cfg: Config, person: Person, days: int) -> list[Row]:
                         project_urls[project_id] = project_response.json()["web_url"].rstrip("/")
                     row = _event_row(event, person.name, instance, project_urls[project_id])
                     if row:
-                        event_date = datetime.fromisoformat(row["date"].replace("Z", "+00:00"))
+                        event_date = datetime.fromisoformat(row["date"])
                         if since <= event_date <= until:
                             rows.append(row)
                 if len(events) < 100:

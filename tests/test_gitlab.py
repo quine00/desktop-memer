@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from unittest.mock import patch
 
 from memer.collectors import gitlab
@@ -20,7 +20,7 @@ class Response:
 
 class FakeClient:
     def __init__(self, *args, **kwargs):
-        self.event_date = (datetime.now(timezone.utc) - timedelta(seconds=2)).isoformat()
+        self.event_date = (datetime.now(UTC) - timedelta(seconds=2)).isoformat()
 
     def __enter__(self):
         return self
@@ -29,7 +29,7 @@ class FakeClient:
         pass
 
     def get(self, url, params=None):
-        if url.endswith("/issues") or url.endswith("/merge_requests"):
+        if url.endswith(("/issues", "/merge_requests")):
             # Item creation results duplicate the matching GitLab event.
             return Response([{
                 "title": "An older item",

@@ -12,7 +12,8 @@ import json
 import sys
 from pathlib import Path
 
-from . import collectors, meme, rank as rank_mod
+from . import collectors, meme
+from . import rank as rank_mod
 from .config import load
 
 OUT = Path(__file__).resolve().parent.parent / "out"
@@ -27,7 +28,7 @@ def collect_all(days: int) -> list[dict]:
         for col in COLLECTORS:
             try:
                 rows.extend(col.collect(cfg, person, days))
-            except Exception as e:  # keep other sources alive
+            except Exception as e:  # noqa: BLE001 - keep other sources alive
                 print(f"warn: {col.__name__} failed for {person.name}: {e}", file=sys.stderr)
     return rows
 
@@ -85,7 +86,7 @@ def main() -> None:
     print(f"posted: {post_id}")
 
 
-def _caption(summary: "meme.Summary", image_cost: float) -> str:
+def _caption(summary: meme.Summary, image_cost: float) -> str:
     people = "\n".join(f"- **{name}**: {line}" for name, line in summary.people.items())
     total = summary.cost + image_cost
     return (

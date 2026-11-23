@@ -17,7 +17,7 @@ def collect(cfg: Config, person: Person, days: int) -> list[Row]:
     rows: list[Row] = []
     with httpx.Client(headers=h, timeout=30) as c:
         queries = [
-            (f"author:{person.github} is:pr created:>={since_date}", "pr"),
+            (f"author:{person.github} is:pr updated:>={since_date}", "pr"),
             (f"author:{person.github} is:issue created:>={since_date}", "issue"),
             (f"commenter:{person.github} is:issue updated:>={since_date}", "comment"),
             (f"commenter:{person.github} is:pr updated:>={since_date}", "comment"),
@@ -35,12 +35,14 @@ def collect(cfg: Config, person: Person, days: int) -> list[Row]:
                 # comments: only count if person is not the author (else dup)
                 if kind == "comment" and item["user"]["login"].lower() == person.github.lower():
                     continue
+                merged_at = (item.get("pull_request") or {}).get("merged_at")
+                date = merged_at or item.get("updated_at") or item["created_at"]
                 rows.append({
                     "person": person.name,
                     "source": "github",
                     "kind": kind,
                     "headline": item["title"],
                     "url": url,
-                    "date": item["created_at"],
+                    "date": date,
                 })
     return rows
